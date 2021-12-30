@@ -11,7 +11,9 @@ class Dataset():
 			Date: str = "2018-01-01", 
 			End_Date: str = "2021-12-31", # for debug
 	) -> None:
-		share_data = share.Share("3092.T").get_historical( # zozo
+		if Code is None:
+			raise ValueError("""Specify a stock code. """)
+		share_data = share.Share(Code).get_historical(
 		    share.PERIOD_TYPE_YEAR,
 		    6,
 		    share.FREQUENCY_TYPE_DAY,

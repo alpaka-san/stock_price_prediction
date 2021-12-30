@@ -6,3 +6,6 @@ training:
 eval:
   buy_trans_fee: 1.0006
   sell_trans_fee: 0.9994
+  model_dir: /path/to/model_dir
+  stock_code: AMZN
+  date: "2018-01-01"
