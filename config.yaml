@@ -1,0 +1,8 @@
+output_dir: /root/stock_price_prediction/output_dir
+dataset:
+  date: "2018-01-01"
+training:
+  epochs: 100
+eval:
+  buy_trans_fee: 1.0006
+  sell_trans_fee: 0.9994
