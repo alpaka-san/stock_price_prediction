@@ -58,7 +58,7 @@ def eval(code, date, model_dir):
 
 @hydra.main(config_name="config.yaml")
 def main(cfg):
-    pred, today, delta, timestamp = eval(cfg.eval.stock_code, cfg.eval.date, cfg.eval.model_dir)
+    pred, today, delta, timestamp = eval(cfg.stock_code, cfg.eval.date, cfg.eval.model_dir)
     print("prediction, today, delta, time:", pred, today, delta, timestamp)
 
 if __name__ == "__main__":
