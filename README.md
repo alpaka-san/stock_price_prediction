@@ -1,4 +1,4 @@
-# stock price prediction using LSTM based Deep Learning Model
+# Stock Price Prediction using LSTM based Deep Learning Model
 ## Getting Started
 First of all, please install Docker in your local machine. 
 Then, please run `make build`. 
