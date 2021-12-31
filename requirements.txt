@@ -1,0 +1,6 @@
+hydra-core
+tensorflow
+yahoo_finance_api2
+hydra
+pandas
+matplotlib
