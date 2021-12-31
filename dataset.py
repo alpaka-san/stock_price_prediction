@@ -4,6 +4,27 @@ import pandas as pd
 import numpy as np
 
 
+def get_historical_data(Code):
+    if Code is None:
+        raise ValueError("""Specify a stock code. """)
+
+    share_data = share.Share(Code).get_historical(
+        share.PERIOD_TYPE_YEAR,
+        6,
+        share.FREQUENCY_TYPE_DAY,
+        1
+    )
+    columns = list(share_data.keys())
+    columns[0] = "Date"
+    columns[-2] = "Adj. Close"      # TODO: it's not actually Adjusted Close, but Close. 
+    df = pd.DataFrame(
+        list(zip(*share_data.values())), 
+        columns=columns
+    )
+    df["Date"] = pd.to_datetime(df["Date"], unit="ms").dt.date
+    return df
+
+
 class Dataset():
     def __init__(
         self,
@@ -11,15 +32,7 @@ class Dataset():
         Date: str = "2018-01-01", 
         End_Date: str = "2021-12-31", # for debug
     ) -> None:
-        if Code is None:
-            raise ValueError("""Specify a stock code. """)
-        share_data = share.Share(Code).get_historical(
-            share.PERIOD_TYPE_YEAR,
-            6,
-            share.FREQUENCY_TYPE_DAY,
-            1
-        )
-        df = self._share_to_df(share_data)
+        df = get_historical_data(Code)
 
         #TODO: ad-hoc.
         train_X, train_Y, val_X, val_Y, test_X, test_Y, test_open_Y, timestamp_train_Y, timestamp_val_Y, timestamp_test_Y = self._split_data(df, Date)
@@ -62,14 +75,3 @@ class Dataset():
 
         return train_X, train_Y, val_X, val_Y, test_X, test_Y, test_open_Y, timestamp_train_Y, timestamp_val_Y, timestamp_test_Y
 
-    @staticmethod
-    def _share_to_df(share_data):
-        columns = list(share_data.keys())
-        columns[0] = "Date"
-        columns[-2] = "Adj. Close"      # TODO: it's not actually Adjusted Close, but Close. 
-        df = pd.DataFrame(
-            list(zip(*share_data.values())), 
-            columns=columns
-        )
-        df["Date"] = pd.to_datetime(df["Date"], unit="ms").dt.date
-        return df
