@@ -1,1 +1,2 @@
-docker image build -t spp_lstm:beta .
+build:
+	docker build -t spp_lstm .
