@@ -20,5 +20,7 @@ jobs:
         run: python -V
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Python
-        run: python *_test.py
+      - name: Run Dataset_Test
+        run: python dataset_test.py
+      - name: Run Train_Test
+        run: python train_test.py
