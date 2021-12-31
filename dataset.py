@@ -6,10 +6,10 @@ import numpy as np
 
 class Dataset():
 	def __init__(
-			self,
-			Code: str = None,
-			Date: str = "2018-01-01", 
-			End_Date: str = "2021-12-31", # for debug
+		self,
+		Code: str = None,
+		Date: str = "2018-01-01", 
+		End_Date: str = "2021-12-31", # for debug
 	) -> None:
 		if Code is None:
 			raise ValueError("""Specify a stock code. """)
@@ -35,7 +35,7 @@ class Dataset():
 		data_train_raw = df["Adj. Close"][df["Date"] < Date].to_numpy()
 		data_valtest_raw = df["Adj. Close"][df["Date"] >= Date].to_numpy()
 		data_valtest_open = df["open"][df["Date"] >= Date].to_numpy()
-		# import pdb;pdb.set_trace()
+
 		timestamp_train_Y = df["Date"][df["Date"] < Date]
 		timestamp_valtest_Y = df["Date"][df["Date"] >= Date]
 		timestamp_val_Y = timestamp_valtest_Y[:timestamp_valtest_Y.shape[0] // 2]

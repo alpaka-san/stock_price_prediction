@@ -56,7 +56,7 @@ def main(cfg):
             Directory {cfg.output_dir} not found. Specify an appropriate output_dir.
         """)
     model = Model()
-    dataset = Dataset()
+    dataset = Dataset(Code=cfg.stock_code)
     callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
     model.compile(
         optimizer = tf.keras.optimizers.Adam(),

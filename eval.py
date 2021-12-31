@@ -20,6 +20,7 @@ def plot_win_ratio(prediction, Test_Y, model_dir):
     plt.ylabel("Win ratio of the Closing Price 20-days Mean value")
     os.makedirs(os.path.join(model_dir, "../png"), exist_ok=True)
     plt.savefig(os.path.join(model_dir, "../png/win_ratio.png"))
+    plt.close()
 
 def plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir):
     pred = prediction.reshape(-1)[0::5]
@@ -39,6 +40,7 @@ def plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir):
     plt.legend()
     os.makedirs(os.path.join(model_dir, "../png"), exist_ok=True)
     plt.savefig(os.path.join(model_dir, "../png/revenue.png"))
+    plt.close()
 
 
 def eval(code, date, model_dir):
@@ -47,17 +49,17 @@ def eval(code, date, model_dir):
         pass
     dataset = Dataset(code, date)
     model = tf.keras.models.load_model(os.path.join(model_dir))
-    Test_X, Test_Y, _ = dataset.test_data
-    _, Test_Y_open, _ = dataset.test_data
+    Test_X, Test_Y, timestamp = dataset.test_data
+    Test_Y_open, _ = dataset.test_open_data
     prediction = model.predict(Test_X)
     plot_win_ratio(prediction, Test_Y, model_dir)
     plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir)
-    return prediction[-1], Test_Y[-2], Test_Y[-2] - prediction[-1]
+    return prediction[-1], Test_Y[-2], Test_Y[-2] - prediction[-1], timestamp.to_numpy()[-1]
 
 @hydra.main(config_name="config.yaml")
 def main(cfg):
-    pred, today, delta = eval(cfg.eval.stock_code, cfg.eval.date, cfg.eval.model_dir)
-    print("prediction, today, delta:", pred, today, delta)
+    pred, today, delta, timestamp = eval(cfg.eval.stock_code, cfg.eval.date, cfg.eval.model_dir)
+    print("prediction, today, delta, time:", pred, today, delta, timestamp)
 
 if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
