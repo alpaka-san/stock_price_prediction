@@ -5,6 +5,13 @@ import numpy as np
 
 
 def get_historical_data(Code):
+	"""
+	A function to get a historical data corresponding to a specified stock code. 
+	Args:
+	    Code (str): A stock code corresponding to the historical data. 
+	Returns:
+	    A historical data corresponding to the stock code in DataFrame format of Pandas. 
+	"""
     if Code is None:
         raise ValueError("""Specify a stock code. """)
 
@@ -26,6 +33,20 @@ def get_historical_data(Code):
 
 
 class Dataset():
+    """
+    Dataset class. 
+	The generated historical data consists of 6-years historical data of a given stock code in total. 
+	The data is split into train, validation and test. 
+
+    Parameters:
+        Code (str): A stock code of which the corresponding historical data is going to be loaded. 
+        Date (str): Date which split the data for train and validation/test data. 
+	Variables:
+	    train_data (tuple): Tuple of train data, its label data and timestamp of the label, respectively. 
+		val_data (tuple): Tuple of validation data, its label data and timestamp of the label, respectively. 
+		test_data (tuple): Tuple of test data, its label data and timestamp of the label, respectively. 
+		test_open_data (tuple): Tuple of open values corresponding to the label for test data, and its timestamps. 
+    """
     def __init__(
         self,
         Code: str = None,
