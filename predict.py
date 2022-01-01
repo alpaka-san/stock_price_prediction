@@ -3,6 +3,7 @@ import pandas as pd
 import hydra
 import os
 import tensorflow as tf
+import numpy as np
 
 
 def predict(code, model_dir, debug_date):
@@ -12,7 +13,6 @@ def predict(code, model_dir, debug_date):
         df = df.iloc[:-debug_date]
     df["Date"] = pd.to_datetime(df["Date"]) #TODO: this is just a WA
     Test_X = df["Adj. Close"].to_numpy()[-5:].reshape(-1, 5, 1)
-    # import pdb;pdb.set_trace()
     timestamp = df["Date"].to_numpy()[-1]
 
     model = tf.keras.models.load_model(os.path.join(model_dir))
@@ -26,11 +26,11 @@ def predict(code, model_dir, debug_date):
 
 @hydra.main(config_name="config.yaml")
 def main(cfg):
-    print(cfg)
-    if "debug" in cfg: # for developers
-        pred, today, delta, timestamp = predict(cfg.stock_code, cfg.eval.model_dir, cfg.debug)
-    else:
-        pred, today, delta, timestamp = predict(cfg.stock_code, cfg.eval.model_dir, None)
+    pred, today, delta, timestamp = predict(
+        cfg.stock_code,
+        cfg.eval.model_dir,
+        cfg.debug if "debug" in cfg else None
+    )
     print("next 5 days:", pred)
     print("these 5 days:", today)
     print("delta:", delta)

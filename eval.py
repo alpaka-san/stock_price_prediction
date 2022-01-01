@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 
 def plot_win_ratio(prediction, Test_Y, model_dir):
     ave = []
+    Test_Y = Test_Y.reshape(-1)[::5]
+    prediction = prediction.reshape(-1)[::5]
     for k in range(Test_Y.shape[0]-30):
         ave.append(
             np.sum(
@@ -29,18 +31,27 @@ def plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir):
     stock_num = 1
     buy_trans_fee = 1.0006
     sell_trans_fee = 0.9994
-    for k in range(1, len(pred)):
-        if pred[k] > 1.00*GT[k-1]:
-            ans.append(stock_num * (sell_trans_fee*GT[k] - buy_trans_fee*GT[k-1]))
+    for k in range(1, len(pred)-1):
+        # if (pred[k] > 1.0*GT[k-1]) and (pred[k+1] > GT[k-1]):
+        if (pred[k+1] > GT[k-1]):
+            ans.append(stock_num * (sell_trans_fee*GT[k+1] - buy_trans_fee*GT[k-1]))
         else:
-            ans.append(stock_num * (sell_trans_fee*Test_Y_open.reshape(-1)[0::5][k] - buy_trans_fee*GT[k-1]))
+            ans.append(stock_num * (sell_trans_fee*Test_Y_open.reshape(-1)[0::5][k+1] - buy_trans_fee*GT[k-1]))
             # ans.append(0)
     plt.plot([sum(ans[:k])+GT[0] for k in range(len(ans))], label=f"model")
+    # for k,s in enumerate(ans):
+    #     # if not s == 0:
+    #     # if not np.sign(GT[k] - GT[k-1]) == np.sign(pred[k] - pred[k-1]):
+    #     if pred[k] > GT[k-1]:
+    #         plt.scatter(k, pred[k], c="blue", linewidths=0.2, alpha=0.3)
+    #     else:
+    #         plt.scatter(k, pred[k], c="orange", linewidths=0.2, alpha=0.3)
     plt.plot(GT, label="GT (buy&hold)")
     plt.legend()
     os.makedirs(os.path.join(model_dir, "../png"), exist_ok=True)
     plt.savefig(os.path.join(model_dir, "../png/revenue.png"))
     plt.close()
+    print("ANS:", ans)
 
 
 def eval(code, date, model_dir):
@@ -54,6 +65,7 @@ def eval(code, date, model_dir):
     prediction = model.predict(Test_X)
     plot_win_ratio(prediction, Test_Y, model_dir)
     plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir)
+    print("Test_X[-1]:", Test_X[-1])
     return prediction[-1], Test_Y[-2], Test_Y[-2] - prediction[-1], timestamp.to_numpy()[-1]
 
 @hydra.main(config_name="config.yaml")

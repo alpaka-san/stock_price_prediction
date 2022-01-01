@@ -43,7 +43,8 @@ class Dataset():
         self.test_open_data = (test_open_Y, timestamp_test_Y)
 
     @staticmethod
-    def _split_data(df, Date):
+    def _split_data(df, Date, input_length=5):
+        # Date = "2016-01-01"
         df["Date"] = pd.to_datetime(df["Date"]) #TODO: this is just a WA
         data_train_raw = df["Adj. Close"][df["Date"] < Date].to_numpy()
         data_valtest_raw = df["Adj. Close"][df["Date"] >= Date].to_numpy()
@@ -56,11 +57,11 @@ class Dataset():
 
         def _data_reshape(data):
             reshaped = []
-            for i in range(0, len(data) - 5):
-                reshaped.append(data[i : i + 5].copy())
+            for i in range(0, len(data) - (input_length+5)):
+                reshaped.append(data[i : i + (input_length+5)].copy())
 
-            reshaped_x = np.array(reshaped[0 : -1]).reshape((-1, 5, 1))
-            reshaped_y = np.array(reshaped[1:]).reshape((-1, 5, 1))
+            reshaped_x = np.array([r[:input_length] for r in reshaped]).reshape((-1, input_length, 1))
+            reshaped_y = np.array([r[input_length:] for r in reshaped]).reshape((-1, 5, 1))
             return reshaped_x, reshaped_y
 
         train_X, train_Y = _data_reshape(data_train_raw)
