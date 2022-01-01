@@ -4,6 +4,7 @@ from dataset import Dataset
 import hydra
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import math
 
 def scheduler(epoch):
   
@@ -20,7 +21,7 @@ def scheduler(epoch):
   else:
     lrate = (10 ** -6)
   
-  return lrate
+  return lrate * 10
 
 def plot(output_dir, hist):
     history_dict = hist.history
