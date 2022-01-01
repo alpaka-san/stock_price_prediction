@@ -26,7 +26,11 @@ def predict(code, model_dir, debug_date):
 
 @hydra.main(config_name="config.yaml")
 def main(cfg):
-    pred, today, delta, timestamp = predict(cfg.stock_code, cfg.eval.model_dir, cfg.debug)
+    pred, today, delta, timestamp = predict(
+        cfg.stock_code,
+        cfg.eval.model_dir,
+        cfg.debug if "debug" in cfg else None
+    )
     print("next 5 days:", pred)
     print("these 5 days:", today)
     print("delta:", delta)
