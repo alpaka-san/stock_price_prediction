@@ -31,11 +31,9 @@ def plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir):
     stock_num = 1
     buy_trans_fee = 1.0006
     sell_trans_fee = 0.9994
-    # import pdb;pdb.set_trace()
     for k in range(1, len(pred)-1):
         # if (pred[k] > 1.0*GT[k-1]) and (pred[k+1] > GT[k-1]):
         if (pred[k+1] > GT[k-1]):
-            # ans.append(stock_num * (sell_trans_fee*GT[k] - buy_trans_fee*GT[k-1]))
             ans.append(stock_num * (sell_trans_fee*GT[k+1] - buy_trans_fee*GT[k-1]))
         else:
             ans.append(stock_num * (sell_trans_fee*Test_Y_open.reshape(-1)[0::5][k+1] - buy_trans_fee*GT[k-1]))

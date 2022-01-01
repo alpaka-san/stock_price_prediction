@@ -43,11 +43,10 @@ class Dataset():
         self.test_open_data = (test_open_Y, timestamp_test_Y)
 
     @staticmethod
-    def _split_data(df, Date, input_length=10):
+    def _split_data(df, Date, input_length=5):
         # Date = "2016-01-01"
         df["Date"] = pd.to_datetime(df["Date"]) #TODO: this is just a WA
         data_train_raw = df["Adj. Close"][df["Date"] < Date].to_numpy()
-        # import pdb;pdb.set_trace()
         data_valtest_raw = df["Adj. Close"][df["Date"] >= Date].to_numpy()
         data_valtest_open = df["open"][df["Date"] >= Date].to_numpy()
 
