@@ -1,5 +1,5 @@
 import unittest
-from dataset import Dataset
+from dataset import Dataset, get_historical_data
 import pandas as pd
 
 
@@ -27,7 +27,7 @@ class TestDataset(unittest.TestCase):
 
     def test_get_historical_data(self):
         data = get_historical_data("3092.T")
-        self.assertIsInstance(data, pd.Dataframe)
+        self.assertIsInstance(data, pd.DataFrame)
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-def get_historical_data(Code):
+def get_historical_data(Code=None):
     """
     A function to get a historical data corresponding to a specified stock code. 
     Args:
