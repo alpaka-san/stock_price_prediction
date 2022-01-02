@@ -5,13 +5,13 @@ import numpy as np
 
 
 def get_historical_data(Code):
-	"""
-	A function to get a historical data corresponding to a specified stock code. 
-	Args:
-	    Code (str): A stock code corresponding to the historical data. 
-	Returns:
-	    A historical data corresponding to the stock code in DataFrame format of Pandas. 
-	"""
+    """
+    A function to get a historical data corresponding to a specified stock code. 
+    Args:
+        Code (str): A stock code corresponding to the historical data. 
+    Returns:
+        A historical data corresponding to the stock code in DataFrame format of Pandas. 
+    """
     if Code is None:
         raise ValueError("""Specify a stock code. """)
 
