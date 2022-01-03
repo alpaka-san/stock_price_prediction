@@ -1,5 +1,5 @@
 output_dir: /root/stock_price_prediction/output_dir
-stock_code: None
+stock_code: # None
 dataset:
   date: "2018-08-01"
 training:

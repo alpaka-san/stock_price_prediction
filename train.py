@@ -56,6 +56,10 @@ def main(cfg):
         raise ValueError(f"""
             Directory {cfg.output_dir} not found. Specify an appropriate output_dir.
         """)
+    if cfg.stock_code is None:
+        raise ValueError(f"""
+            Specify an appropriate stock code. 
+        """)
     model = Model()
     dataset = Dataset(Code=cfg.stock_code)
     callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
