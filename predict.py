@@ -15,7 +15,7 @@ def predict(code, model_dir, debug_date):
     Test_X = df["Adj. Close"].to_numpy()[-5:].reshape(-1, 5, 1)
     timestamp = df["Date"].to_numpy()[-1]
 
-    model = tf.keras.models.load_model(os.path.join(model_dir))
+    model = tf.keras.models.load_model(os.path.join(model_dir, f"model_{code}"))
     prediction = model.predict(Test_X).reshape(-1)
     Test_X = Test_X.reshape(-1)
     if debug_date is not None:

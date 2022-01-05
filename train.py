@@ -75,7 +75,7 @@ def main(cfg):
         validation_data = (dataset.val_data[0], dataset.val_data[1]),
         callbacks=[callback]
     )
-    model.save(os.path.join(cfg.output_dir, "my_model"))
+    model.save(os.path.join(cfg.output_dir, f"model_{cfg.stock_code}"))
     plot(cfg.output_dir, hist) # plot analysis
 
 if __name__ == "__main__":

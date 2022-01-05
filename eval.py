@@ -29,8 +29,8 @@ def plot_revenue(prediction, Test_X, Test_Y, Test_Y_open, model_dir):
     GT = Test_Y.reshape(-1)[0::5]
     ans = []
     stock_num = 1
-    buy_trans_fee = 1.0006
-    sell_trans_fee = 0.9994
+    buy_trans_fee = 1. # 1.0006
+    sell_trans_fee = 1. # 0.9994
     for k in range(1, len(pred)-1):
         # if (pred[k] > 1.0*GT[k-1]) and (pred[k+1] > GT[k-1]):
         if (pred[k+1] > GT[k-1]):
@@ -59,7 +59,7 @@ def eval(code, date, model_dir):
         # enter a logic here that date is set to today when data is not specified. 
         pass
     dataset = Dataset(code, date)
-    model = tf.keras.models.load_model(os.path.join(model_dir))
+    model = tf.keras.models.load_model(os.path.join(model_dir, f"model_{code}"))
     Test_X, Test_Y, timestamp = dataset.test_data
     Test_Y_open, _ = dataset.test_open_data
     prediction = model.predict(Test_X)
